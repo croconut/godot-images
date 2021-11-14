@@ -22,9 +22,9 @@ def get_best_link(add_dict, fname, url, return_list):
         elif '/' in link and link not in IGNORE_LIST:
             folders.append([fname + '_' + link.strip('/'), url + '/' + link.strip('/') ])
     if best_link != '':
-        #p = run(["./check_docker.sh", fname, argv[1]])
-        #if p.returncode == 0:
-        return_list.append(fname)
+        p = run(["./check_docker.sh", fname, argv[1]])
+        if p.returncode == 0:
+            return_list.append(fname)
     for sfname, sfurl in folders:
         get_best_link(add_dict, sfname, sfurl, return_list)            
 
@@ -45,8 +45,8 @@ def main():
 
     for version in top_level_versions:
         vdict = top_level_versions[version]
-        #if version > '3.3': # everything pre 3.4 has been generated at this time
-        get_best_link(vdict, version, vdict['base_url'], return_list)
+        if version > '3.3': # everything pre 3.4 has been generated at this time
+            get_best_link(vdict, version, vdict['base_url'], return_list)
         
     print(return_list)        
 
