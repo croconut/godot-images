@@ -1,14 +1,16 @@
 from bs4 import BeautifulSoup
-import requests
+from sys import argv
+from requests import get
 from subprocess import Popen
 
 IGNORE_LIST=['../',]
 URL="https://downloads.tuxfamily.org/godotengine/"
 
 ALL_PROCESSES=[]
+RETURN_MODE='false'
 
-def get_best_link(add_dict, fname, url):
-    page = requests.get(url) 
+def get_best_link(add_dict, fname, url, return_list):
+    page = get(url) 
     data = page.text
     soup = BeautifulSoup(data, features='html.parser')
     links = map(lambda x: x.get('href'), soup.find_all('a'))
@@ -20,19 +22,15 @@ def get_best_link(add_dict, fname, url):
         elif best_link == '' and ('x11.64' in link or 'x11_64' in link):
             best_link = link
         elif '/' in link and link not in IGNORE_LIST:
-            folders.append([fname + '_' + link.strip('/'), url + '/' + link.strip('/') ])
-    if best_link == '':
-        print(fname, 'option not found')
-    else:
-        best_link = url + '/' + best_link
-        zip_file_name = best_link.rsplit('/', 1)[-1]
-        extracted_file_name = zip_file_name.rsplit('.', 1)[0]
-        ALL_PROCESSES.append(Popen(["./download_single.sh", fname, best_link, zip_file_name, extracted_file_name]))
+            folders.append([fname + '___' + link.strip('/'), url + '/' + link.strip('/') ])
+    if best_link != '':
+        return_list.append(fname)
     for sfname, sfurl in folders:
-        get_best_link(add_dict, sfname, sfurl)            
+        get_best_link(add_dict, sfname, sfurl, return_list)            
 
 def main():
-    page = requests.get(URL)
+    return_list = []
+    page = get(URL)
     data = page.text
     soup = BeautifulSoup(data, features='html.parser')
 
@@ -47,9 +45,8 @@ def main():
 
     for version in top_level_versions:
         vdict = top_level_versions[version]
-        get_best_link(vdict, version, vdict['base_url'])
+        get_best_link(vdict, version, vdict['base_url'], RETURN_MODE, return_list)
         
-    for i in ALL_PROCESSES:
-        i.wait()
+    print(return_list)        
 
 main()
