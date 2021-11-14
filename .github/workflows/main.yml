@@ -36,8 +36,10 @@ jobs:
     needs: create_matrix
     continue-on-error: true 
     strategy:
+      fail-fast: false
       matrix:
         version: ${{ fromJson(needs.create_matrix.outputs.version_matrix) }}
+    if: ${{ fromJson(needs.create_matrix.outputs.version_matrix).include[0] }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
