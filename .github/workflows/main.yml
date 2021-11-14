@@ -2,7 +2,7 @@ name: Publish Godot Image
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   schedule:
     - cron: '0 0 * * *'
 
