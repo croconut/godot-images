@@ -47,8 +47,7 @@ def main():
 
     for version in top_level_versions:
         vdict = top_level_versions[version]
-        if version == '3.0':
-            get_best_link(vdict, version, vdict['base_url'])
+        get_best_link(vdict, version, vdict['base_url'])
         
     for i in ALL_PROCESSES:
         i.wait()
