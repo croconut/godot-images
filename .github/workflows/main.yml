@@ -32,7 +32,6 @@ jobs:
       matrix:
         version: ${{ fromJson(needs.create_matrix.outputs.version_matrix) }}
     runs-on: ubuntu-latest
-    continue-on-error: true
     permissions:
       contents: read
       packages: write
