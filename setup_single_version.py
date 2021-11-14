@@ -16,22 +16,23 @@ def get_best_link(url):
     links = map(lambda x: x.get('href'), soup.find_all('a'))
     best_link = ''
     for link in links:
-        if 'headless' in link:
-            best_link = link
-        elif best_link == '' and ('x11.64' in link or 'x11_64' in link):
+        if 'headless' in link and '64' in link:
             best_link = link
     if best_link != '':
         best_link = url + '/' + best_link
         zip_file_name = best_link.rsplit('/', 1)[-1]
         extracted_file_name = zip_file_name.rsplit('.', 1)[0]
-        call(["./download_single.sh", 'godot', best_link, zip_file_name, extracted_file_name])       
+        call(["./download_single.sh", 'godot', best_link, zip_file_name, extracted_file_name])
+    else:
+        print('headless download link not found!')
+        exit(1)    
 
 def main():
     if len(argv) > 1:
         version = argv[1]
     else:
         exit(1)
-    version = version.replace('___', '/')
+    version = version.replace('_', '/')
     url = URL + version
     get_best_link(url)
 
