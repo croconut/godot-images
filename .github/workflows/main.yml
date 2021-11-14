@@ -24,7 +24,7 @@ jobs:
         continue-on-error: true # only uncreated versions will be added
         run: |
           pip install beautifulsoup4 requests
-          values=$(python ./download_all.py ${{ secrets.DOCKER_USERNAME }})
+          values=$(sudo python ./download_all.py ${{ secrets.DOCKER_USERNAME }})
           echo ${values}
           echo "::set-output name=version_matrix::${values}"
     outputs:
