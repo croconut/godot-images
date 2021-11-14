@@ -45,7 +45,7 @@ def main():
 
     for version in top_level_versions:
         vdict = top_level_versions[version]
-        get_best_link(vdict, version, vdict['base_url'], RETURN_MODE, return_list)
+        get_best_link(vdict, version, vdict['base_url'], return_list)
         
     print(return_list)        
 
