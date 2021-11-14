@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from sys import argv
 from requests import get
-from subprocess import call
+from subprocess import run
 
 IGNORE_LIST=['../',]
 URL="https://downloads.tuxfamily.org/godotengine/"
@@ -24,7 +24,7 @@ def get_best_link(add_dict, fname, url, return_list):
         elif '/' in link and link not in IGNORE_LIST:
             folders.append([fname + '___' + link.strip('/'), url + '/' + link.strip('/') ])
     if best_link != '':
-        p = call(["./check_docker.sh", fname, argv[1]])
+        p = run(["./check_docker.sh", fname, argv[1]])
         if p.returncode == 0:
             return_list.append(fname)
     for sfname, sfurl in folders:
