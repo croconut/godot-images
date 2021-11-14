@@ -47,7 +47,7 @@ def main():
 
     for version in top_level_versions:
         vdict = top_level_versions[version]
-        if version < '3.0':
+        if version > '2.9' and version < '3.2':
             get_best_link(vdict, version, vdict['base_url'], return_list)
         
     print(return_list)        
