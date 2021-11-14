@@ -13,7 +13,10 @@ yes | unzip -q ${ZIP_NAME} -d ./
 ls ${EXTRACTED_FILE_NAME}
 rm -rf ${ZIP_NAME}
 
-[ -d ${EXTRACTED_FILE_NAME} ] && MONO_FILE_NAME=$(echo `ls ./${EXTRACTED_FILE_NAME} | grep -v ".dll" | head -1`) && mv ./${EXTRACTED_FILE_NAME}/${MONO_FILE_NAME} ./${EXTRACTED_FILE_NAME}/${FINAL_NAME} && mv ./${EXTRACTED_FILE_NAME}/* /usr/local/bin/
+[ -d ${EXTRACTED_FILE_NAME} ] && \
+    MONO_FILE_NAME=$(echo `ls ./${EXTRACTED_FILE_NAME} | grep "headless" | head -1`) && \
+    mv ./${EXTRACTED_FILE_NAME}/${MONO_FILE_NAME} ./${EXTRACTED_FILE_NAME}/${FINAL_NAME} && \
+    mv ./${EXTRACTED_FILE_NAME}/* /usr/local/bin/
 [ -f ${EXTRACTED_FILE_NAME} ] && mv ./${EXTRACTED_FILE_NAME} /usr/local/bin/${FINAL_NAME}
 
 rm -rf ${EXTRACTED_FILE_NAME}

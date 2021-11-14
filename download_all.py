@@ -45,8 +45,8 @@ def main():
 
     for version in top_level_versions:
         vdict = top_level_versions[version]
-        if version > '3.3': # everything pre 3.4 has been generated at this time
-            get_best_link(vdict, version, vdict['base_url'], return_list)
+        # if version > '3.3': # everything pre 3.4 has been generated at this time
+        get_best_link(vdict, version, vdict['base_url'], return_list)
         
     print(return_list)        
 
