@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from sys import argv
 from requests import get
-from subprocess import Popen
+from subprocess import call
 
 IGNORE_LIST=['../',]
 URL="https://downloads.tuxfamily.org/godotengine/"
@@ -24,7 +24,9 @@ def get_best_link(add_dict, fname, url, return_list):
         elif '/' in link and link not in IGNORE_LIST:
             folders.append([fname + '___' + link.strip('/'), url + '/' + link.strip('/') ])
     if best_link != '':
-        return_list.append(fname)
+        p = call(["./check_docker.sh", fname, argv[1]])
+        if p.returncode == 0:
+            return_list.append(fname)
     for sfname, sfurl in folders:
         get_best_link(add_dict, sfname, sfurl, return_list)            
 
@@ -45,7 +47,8 @@ def main():
 
     for version in top_level_versions:
         vdict = top_level_versions[version]
-        get_best_link(vdict, version, vdict['base_url'], return_list)
+        if version == '3.0':
+            get_best_link(vdict, version, vdict['base_url'], return_list)
         
     print(return_list)        
 

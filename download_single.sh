@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-FINAL_NAME="godot_${1}"
+FINAL_NAME=${1}
 DL_URL=$2
 ZIP_NAME=$3
 EXTRACTED_FILE_NAME=$4
@@ -15,7 +15,5 @@ rm -rf ${ZIP_NAME}
 
 mv $EXTRACTED_FILE_NAME /usr/local/bin/${FINAL_NAME}
 chmod u+x /usr/local/bin/${FINAL_NAME}
-
-echo "installed ${FINAL_NAME} to /usr/local/bin/"
 
 silent=$(cd -)

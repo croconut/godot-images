@@ -15,11 +15,16 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.8"
+      - uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Generate godot versions
         id: set-matrix
+        continue-on-error: true # only uncreated versions will be added
         run: |
           pip install beautifulsoup4 requests
-          values=$(python ./download_all.py)
+          values=$(python ./download_all.py ${{ secrets.DOCKER_USERNAME }})
           echo ${values}
           echo "::set-output name=version_matrix::${values}"
     outputs:
@@ -41,10 +46,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: check if necessary (isn't for stable / mono releases)
-        run: |
-          return=$(docker manifest inspect ${{ secrets.DOCKER_USERNAME }}/godot:${{ matrix.version }})
-          [[ "${return}" =~ "no such"* ]] && exit 1
       - name: Build engines
         uses: docker/build-push-action@v2
         with:
