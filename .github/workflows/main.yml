@@ -16,7 +16,10 @@ jobs:
         with:
           python-version: "3.8"
       - id: set-matrix
-        run: ./matrix_builder.sh
+        run: |
+          pip install beautifulsoup4 requests
+          values=$(python ./download_all.py)
+          echo "::set-output name=version_matrix::${values}"
     outputs:
       version_matrix: ${{ steps.set-matrix.outputs.version_matrix }}
 
