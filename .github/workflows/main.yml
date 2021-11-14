@@ -2,9 +2,9 @@ name: Publish Godot Image
 
 on:
   push:
-  pull_request:
+    branches: [ master ]
   schedule:
-    - cron: '30 5 * * *'
+    - cron: '0 0 * * *'
 
 jobs:
   create_matrix:
