@@ -28,7 +28,7 @@ def get_best_link(url):
 
 def main():
     if len(argv) > 1:
-        version = argv[0]
+        version = argv[1]
     else:
         exit(1)
     version = version.replace('___', '/')
