@@ -39,7 +39,7 @@ jobs:
       fail-fast: false
       matrix:
         version: ${{ fromJson(needs.create_matrix.outputs.version_matrix) }}
-    if: ${{ fromJson(needs.create_matrix.outputs.version_matrix).include[0] }}
+    if: ${{ fromJson(needs.create_matrix.outputs.version_matrix) }} != []
     runs-on: ubuntu-latest
     permissions:
       contents: read
