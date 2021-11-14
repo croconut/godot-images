@@ -34,12 +34,11 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     needs: create_matrix
-    continue-on-error: true 
+    if: ${{ fromJson(needs.create_matrix.outputs.version_matrix) }} != []
     strategy:
       fail-fast: false
       matrix:
         version: ${{ fromJson(needs.create_matrix.outputs.version_matrix) }}
-    if: ${{ fromJson(needs.create_matrix.outputs.version_matrix) }} != []
     runs-on: ubuntu-latest
     permissions:
       contents: read
