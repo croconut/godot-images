@@ -34,6 +34,7 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     needs: create_matrix
+    continue-on-error: true 
     strategy:
       matrix:
         version: ${{ fromJson(needs.create_matrix.outputs.version_matrix) }}
